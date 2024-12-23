@@ -1,4 +1,5 @@
-const db = require('../database');
+const db1 = require('../database');
+const db2 = require('../database');
 
 exports.get_customer_info = (req, res) => {
 
@@ -10,7 +11,7 @@ exports.get_customer_info = (req, res) => {
     }
 
     // Check if CustomerID avalabal in the database
-    db.query('SELECT CustomerID FROM customer_images', (error, result) => {
+    db1.query('SELECT CustomerID FROM customer_images', (error, result) => {
         if (error) {
             console.error('Error executing query', err.stack);
             res.status(500).send('Error on server');
@@ -19,7 +20,7 @@ exports.get_customer_info = (req, res) => {
         }
 
         // get customer name from database 2 (using CustomerID)
-        db.query('SELECT CustomerID FROM customer_images WHERE CustomerID = ?', [info.CustomerID], (error, result) => {
+        db2.query('SELECT CustomerName FROM customerinformation WHERE CustomerID = ?', [info.CustomerID], (error, result) => {
             if (error) {
                 console.error('Error executing query', err.stack);
                 res.status(500).send('Error on server');

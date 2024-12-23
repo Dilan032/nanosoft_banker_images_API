@@ -1,4 +1,4 @@
-const db = require('../database');
+const db2 = require('../database');
 
 exports.update_customer_info = (req, res) => {
 
@@ -11,7 +11,7 @@ exports.update_customer_info = (req, res) => {
     }
 
     // Check if CustomerID avalabal in the database
-    db.query('UPDATE customer_images SET Picture = ?, Signature = ? WHERE CustomerID = ?', [pictureValue, signatureValue, cusID], 
+    db2.query('UPDATE customer_images SET Picture = ?, Signature = ? WHERE CustomerID = ?', [pictureValue, signatureValue, cusID], 
     (error, result) => {
         if (error) {
             console.error('Error executing query', err.stack);
