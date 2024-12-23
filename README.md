@@ -23,8 +23,6 @@
 ### To run backend
 - npm start
 
-<hr>
-
 <br>
 
 ## End-points
