@@ -31,7 +31,7 @@
 - /Customer-info 🙇‍♂️ |`get request`| Input is required -> `CustomerID`
 
 ### show Customer ID and get Customer Name
-- /Customer-info-update 🙇‍♂️ |`post request`| Input is required -> `CustomerID`, `Picture`, `Signature`
+- /Customer-info-update 🙇‍♂️ |`put request`| Input is required -> `CustomerID`, `Picture`, `Signature`
   
 
 

@@ -9,7 +9,7 @@ const update_customer_info_controller = require('./controllers/update_customer_i
 router.get('/Customer-info' ,get_customer_name_controller.get_customer_info);
 
 // update Customer info
-router.post('/Customer-info-update' ,update_customer_info_controller.update_customer_info);
+router.put('/Customer-info-update' ,update_customer_info_controller.update_customer_info);
 
 
 

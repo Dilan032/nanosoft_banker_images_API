@@ -1,68 +1,50 @@
 const mysql = require('mysql2');
-require('dotenv').config(); // get envirment variables in (.env file)
+require('dotenv').config(); // Get environment variables from the .env file
 
-// Function to create and maintain MySQL connection
+// Function to create and maintain MySQL connections
 function handleDisconnect() {
     const db1 = mysql.createConnection({
         host: process.env.DATABASE_1_HOST,
         user: process.env.DATABASE_1_USER,
         password: process.env.DATABASE_1_PASSWORD,
-        database: process.env.DATABASE_1
+        database: process.env.DATABASE_1,
     });
 
     const db2 = mysql.createConnection({
         host: process.env.DATABASE_2_HOST,
         user: process.env.DATABASE_2_USER,
         password: process.env.DATABASE_2_PASSWORD,
-        database: process.env.DATABASE_2
+        database: process.env.DATABASE_2,
     });
 
-    // Connect to the MySQL server db1
-    db.connect((err) => {
-        if (err) {
-            console.error('Error connecting to MySQL database:', err);
-            setTimeout(handleDisconnect, 2000); // Reconnect after 2 seconds if error occurs
-        } else {
-            console.log('Connected to MySQL database');
-        }
-    });
+    const connectToDatabase = (db, dbName) => { 
+        db.connect((err) => {
+            if (err) {
+                console.error(`Error connecting to ${dbName}:`, err);
+                setTimeout(() => connectToDatabase(db, dbName), 2000); // Retry connection after 2 seconds
+            } else {
+                console.log(`Connected to ${dbName}`);
+            }
+        });
 
-    // Connect to the MySQL server db2
-    db2.connect((err) => {
-        if (err) {
-            console.error('Error connecting to MySQL database:', err);
-            setTimeout(handleDisconnect, 2000); // Reconnect after 2 seconds if error occurs
-        } else {
-            console.log('Connected to MySQL database');
-        }
-    });
+        db.on('error', (err) => {
+            if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+                console.error(`${dbName} connection lost. Reconnecting...`);
+                connectToDatabase(db, dbName); // Reconnect on connection lost
+            } else {
+                throw err;
+            }
+        });
+    };
 
-    // Handle connection errors and automatic reconnection db1
-    db1.on('error', (err) => {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.error('MySQL database connection lost. Reconnecting...');
-            handleDisconnect(); // Reconnect on connection lost
-        } else {
-            throw err; 
-        }
-    });
+    connectToDatabase(db1, 'Database 1');
+    connectToDatabase(db2, 'Database 2');
 
-     // Handle connection errors and automatic reconnection db2
-     db2.on('error', (err) => {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.error('MySQL database connection lost. Reconnecting...');
-            handleDisconnect(); // Reconnect on connection lost
-        } else {
-            throw err; 
-        }
-    });
-
-    return db1, db2;
+    return { db1, db2 };
 }
 
-// Establish initial connection
-const db1 = handleDisconnect();
-const db2 = handleDisconnect();
+// Establish initial connections
+const { db1, db2 } = handleDisconnect();
 
-//export the db (connection)
-module.exports = db1, db2;
+// Export the database connections
+module.exports = { db1, db2 };
