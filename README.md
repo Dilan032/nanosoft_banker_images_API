@@ -34,7 +34,7 @@
 - /Customer-info 🙇‍♂️ |`get request`| Input is required -> `CustomerID`
 
 ### check Customer ID and update Customer deails
-- /Customer-info-update 🙇‍♂️ |`put request`| Input is required -> `CustomerID`, `Picture`, `Signature`
+- /Customer-info-update 🙇‍♂️ |`put request`| Input is required -> `CustomerID`, `Picture`, `Signature`, `UserID`
   
 
 

@@ -51,7 +51,7 @@ exports.update_customer_info = (req, res) => {
 
                 // Insert log for updated customer images
                 db1.query(
-                    'INSERT INTO old_images (CustomerID, OldImage, UpdatedIn, ChangedUserID) VALUES (?, ?, ?, ?)',
+                    'INSERT INTO customer_previous_images (CustomerID, Previous_picture, Updated_in, Changed_userID) VALUES (?, ?, ?, ?)',
                     [cusID, pictureValue, currentDateAndTime, UserID],
                     (error, result) => {
                         if (error) {
