@@ -6,6 +6,11 @@ const get_customer_name_controller = require('./controllers/get_customer_info_co
 const update_customer_info_controller = require('./controllers/update_customer_info_controller');
 const loginController = require('./controllers/auth/loginController');
 
+//web api working fine
+router.get('/', (req, res) =>{
+    res.send('api working fine');
+})
+
 // login
 router.post('/login', loginController.login);
 
